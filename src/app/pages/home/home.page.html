@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Dashboard
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <ion-list *ngIf="userDetails">
+      <ion-list-header>
+        <ion-label>My Accounts</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/avatar.svg">
+        </ion-avatar>
+        <ion-label>
+          <h3>{{userDetails.name}}</h3>
+          <p>{{userDetails.accounts.length}} {{(userDetails.accounts.length === 1? " account": " accounts")}}</p>
+        </ion-label>
+      </ion-item>
+      <ng-container *ngIf="accountSummaryList && accountSummaryList.length; else loading">
+        <ion-item-sliding *ngFor="let account of accountSummaryList">
+          <ion-item (click)="accountDetails(account)">
+            <ion-label>
+              <h1>{{account.accountNumber}}</h1>
+              <p>
+                Balance: {{account.balance}}
+              </p>
+              <p>
+                Overdraft: {{account.overdraft}}
+              </p>
+            </ion-label>
+            <!-- <ion-button (click)="accountDeposit(account)" slot="end">
+              <ion-label>Deposit</ion-label>
+            </ion-button>
+            <ion-button (click)="accountWithdraw(account)" slot="end" color="secondary">
+              <ion-label>Withdraw</ion-label>
+            </ion-button> -->
+          </ion-item>
+
+          <ion-item-options side="start">
+            <ion-item-option (click)="accountDeposit(account)">Deposit</ion-item-option>
+          </ion-item-options>
+
+          <ion-item-options side="end">
+            <ion-item-option (click)="accountWithdraw(account)" color="secondary">Withdraw</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ng-container>
+      <ng-template #loading>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      </ng-template>
+      <div class="ion-padding">
+        <ion-button expand="block" (click)="accountCreate()" class="ion-no-margin">Create new account</ion-button>
+      </div>
+    </ion-list>
+
+
+    <!--SKELETON TEXT -->
+    <ion-list *ngIf="!userDetails">
+      <ion-list-header>
+        <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+      </ion-list-header>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-skeleton-text animated style="width: 100%; height: 1em" slot="start"></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-skeleton-text animated style="width: 100%; height: 1em" slot="start"></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-skeleton-text animated style="width: 100%; height: 1em" slot="start"></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

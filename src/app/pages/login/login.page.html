@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">Email
+              </ion-label>
+              <ion-input name="email" id="email" type="text" formControlName="email"></ion-input>
+            </ion-item>
+            <small [hidden]="f.email.valid || f.email.pristine">
+              <ion-text color="danger">Please enter a valid email</ion-text>
+            </small>
+            <ion-item>
+              <ion-label position="stacked">Password
+              </ion-label>
+              <ion-input name="password" id="password" type="password" formControlName="password"></ion-input>
+            </ion-item>
+            <small [hidden]="f.password.valid || f.password.pristine">
+              <ion-text color="danger">Password must be at least 4 characters</ion-text>
+            </small>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+          <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">Login
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

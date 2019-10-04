@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{pageTitle}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="updateAccount()" autocomplete="off">
+    <ion-list>
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-label>
+            <p>Account Number:</p>
+            <h1>{{accountDetails.accountNumber}}</h1>
+          </ion-label>
+        </ion-item-divider>
+        <ion-item>
+          <ion-label position="stacked">
+            <p>Amount</p>
+          </ion-label>
+          <ion-input *ngIf="action !== 0" type="number" min="0" name="amount" step="1" id="amount" pattern="\d+" [formControl]="amount">
+          </ion-input>
+          <small [hidden]="amount.valid || amount.pristine">
+              <ion-text color="danger">Please enter a valid amount</ion-text>
+            </small>
+          <ion-label *ngIf="action === 0" position="stacked">
+            <h2>Balance: {{accountDetails.balance}}</h2>
+          </ion-label>
+        </ion-item>
+      </ion-item-group>
+      <ion-item slot="end">
+        <ion-label *ngIf="action !== 0" position="stacked">
+          <p>Balance: {{accountChanges.balance}}</p>
+        </ion-label>
+        <ion-label position="stacked">
+          <p>Overdraft: {{accountChanges.overdraft}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div *ngIf="action !== 0" class="ion-padding">
+      <ion-button expand="block" type="submit" [disabled]="!amount.valid" class="ion-no-margin">{{pageActionTitle}}</ion-button>
+    </div>
+  </form>
+</ion-content>
+
+<div *ngIf="action === 0" class="ion-padding">
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="primary">
+        <ion-button slot="start" expand="block" (click)="goTransact(1)">
+          Deposit
+        </ion-button>
+
+        <ion-button slot="end" expand="block" (click)="goTransact(2)">
+          Withdraw
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>
