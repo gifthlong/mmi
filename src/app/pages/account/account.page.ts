@@ -84,33 +84,40 @@ export class AccountPage implements OnInit {
   }
 
   transact(val: number) {
-     let accountTransaction: AccountSummary = {
-      accountNumber :this.accountDetails.accountNumber,
-      balance :this.accountDetails.balance,
-      overdraft :this.accountDetails.overdraft
+    let accountTransaction: AccountSummary = {
+      accountNumber: this.accountDetails.accountNumber,
+      balance: this.accountDetails.balance,
+      overdraft: this.accountDetails.overdraft
     };
 
     if (!this.amount) {
       return;
     }
 
-    let transactionTotal = 0;
-
     if (this.action === AccountAction.Deposit) {
-      accountTransaction.balance = this.accountDetails.balance + this.amount.value;
-       this.accountChanges = accountTransaction;
+      this.doDeposit(accountTransaction);
     } else if (this.action === AccountAction.Withdraw) {
-      transactionTotal = this.totalBalance - this.amount.value;
-      if (this.totalBalance > transactionTotal) {
-        if (this.accountDetails.balance >= this.amount.value) {
-               accountTransaction.balance = this.accountDetails.balance - this.amount.value;
-        } else if (this.accountDetails.balance < this.amount.value) {
-          const overdraftUse = this.totalBalance - this.amount.value;
-          accountTransaction.balance = 0;
-          accountTransaction.overdraft = overdraftUse;
-        }
-          this.accountChanges = accountTransaction;
+      this.doWithdrawal(accountTransaction);
+    }
+  }
+
+  private doDeposit(accountTransaction: AccountSummary) {
+    accountTransaction.balance = this.accountDetails.balance + this.amount.value;
+    this.accountChanges = accountTransaction;
+  }
+
+  private doWithdrawal(accountTransaction: AccountSummary) {
+    let transactionTotal = this.totalBalance - this.amount.value;
+    if (this.totalBalance > transactionTotal) {
+      if (this.accountDetails.balance >= this.amount.value) {
+        accountTransaction.balance = this.accountDetails.balance - this.amount.value;
       }
+      else if (this.accountDetails.balance < this.amount.value) {
+        const overdraftUse = this.totalBalance - this.amount.value;
+        accountTransaction.balance = 0;
+        accountTransaction.overdraft = overdraftUse;
+      }
+      this.accountChanges = accountTransaction;
     }
   }
 
