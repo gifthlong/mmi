@@ -111,8 +111,7 @@ export class AccountPage implements OnInit {
     if (this.totalBalance > transactionTotal) {
       if (this.accountDetails.balance >= this.amount.value) {
         accountTransaction.balance = this.accountDetails.balance - this.amount.value;
-      }
-      else if (this.accountDetails.balance < this.amount.value) {
+      } else if (this.accountDetails.balance < this.amount.value) {
         const overdraftUse = this.totalBalance - this.amount.value;
         accountTransaction.balance = 0;
         accountTransaction.overdraft = overdraftUse;
